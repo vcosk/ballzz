@@ -1,0 +1,20 @@
+body {
+	width: 800px;
+	height: 800px;
+}
+
+.ballzz {
+	height:20px;
+	width: 20px;
+	background-color: #FF8700;
+	border: 1px solid black;
+
+	border-radius: 100px;
+	-moz-border-radius: 100px;
+	-webkit-border-radius: 100px;
+
+	position: absolute;
+
+	top: 0px;
+	left: 0px;
+}
