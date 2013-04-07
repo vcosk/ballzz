@@ -1,7 +1,7 @@
 #gameElement {
 	width: 502px;
-	height: 800px;
-	border: 1px solid black;
+	height: 400px;
+	border: 10px groove black;
 	position: absolute;
 }
 
@@ -12,9 +12,25 @@
 	border: 1px solid black;
 
 	border-radius: 100px;
-	-moz-border-radius: 100px;
-	-webkit-border-radius: 100px;
 
 	position: absolute;
 
+}
+
+.bar {
+	border: 1px solid green;
+	height: 10px;
+	top: 100;
+	position: absolute;
+}
+
+.module {
+	background-color: #2618B1;
+	height: 10px;
+	float: left;
+}
+
+.moduleleftround {
+	background-color: #2618B1;
+	position: absolute;
 }

@@ -5,6 +5,8 @@ var maxPos = 480;
 var minPos = 0;
 var moduleLength = 50;
 var barGap = 80;
+var numnerOfModules = Math.floor(maxPos/moduleLength);
+var parentEle;
 
 $(document).ready(function() {
 	init();
@@ -17,15 +19,19 @@ $(document).ready(function() {
 		}
 	});
 	//moveBallzz();
-	console.log($('#gameElement').css("top"));
+	console.log(parentEle.css("top"));
 	ballzObj.move(ballzObj);
 	//$(ballzObj.HTMLObj).animate({opacity: 0.25}, 5000);
-	$('#gameElement').focus();
+	parentEle.focus();
 })
 
 function init() {
+	parentEle = $('#gameElement');
 	ballzObj = new Ballzz();
 	ballzObj.render();
+	var bar = generateBar();
+	//console.log(bar);
+	bar.render();
 }
 
 /* Position object top = x, left = y */
@@ -48,9 +54,9 @@ function renderBallzz() {
 	$(ballzObj.HTMLObj).attr("id", "ballzz");
 	$(ballzObj.HTMLObj).attr("class", "ballzz");
 	//document.body.appendChild(ballzObj.HTMLObj);
-	$('#gameElement').append(ballzObj.HTMLObj);
+	parentEle.append(ballzObj.HTMLObj);
 }
-var counter = 0;
+//var counter = 0;
 
 function moveBallzz(ball) {
 	//console.log("Counter: "+counter++);
@@ -63,11 +69,15 @@ function moveBallzz(ball) {
 	$(ball.HTMLObj).animate({left:nextPosition},time,function(){ball.move(ball)});
 }
 
+/* Maze bar */
 var Bar = function() {
 	this.modules = new Array();
 	this.isInGap = isInGap;
 	this.pos = null;
 	this.render = renderBar;
+	this.htmlObj =  document.createElement("div");
+	$(this.htmlObj).addClass("bar");
+	$(this.htmlObj).css("width", maxPos+20);
 }
 
 function isInGap(x,y) {
@@ -80,4 +90,40 @@ function isInGap(x,y) {
 }
 
 function renderBar() {
+	parentEle.append(this.htmlObj);
+	var m;
+	for(m in this.modules) {
+		//console.log(this.modules[m]);
+		this.modules[m].render();
+	}
+}
+
+var initP = 50;
+function generateBar() {
+	var numberOfGaps = Math.random()*100000%3;
+	var module;
+	var bar = new Bar();
+	for(var modInex=0; modInex<=numnerOfModules;modInex++) {
+		module = new Module();
+		module.htmlObj = document.createElement("span");
+		$(module.htmlObj).addClass("module");
+		$(module.htmlObj).css("width", moduleLength);
+		bar.modules.push(module);
+		module.bar = bar;
+	}
+
+	return bar;
+}
+
+/* Module of BAR */
+var Module = function() {
+	this.gapDirection = 0;
+	this.htmlObj = null;
+	this.pos = null;
+	this.render = renderModule;
+	this.bar = null;
+}
+
+function renderModule() {
+	$(this.bar.htmlObj).append(this.htmlObj);
 }
