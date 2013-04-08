@@ -3,14 +3,16 @@
 	height: 400px;
 	border: 10px groove black;
 	position: absolute;
+	padding: 0;
 }
 
 .ballzz {
 	height:20px;
 	width: 20px;
 	background-color: #FF8700;
+	/*
 	border: 1px solid black;
-
+	*/
 	border-radius: 100px;
 
 	position: absolute;
@@ -18,14 +20,23 @@
 }
 
 .bar {
+	/*
 	border: 1px solid green;
+	*/
 	height: 10px;
-	top: 100;
 	position: absolute;
+	padding: 0px;
+	margin: 0px;
+	z-index:-1000;
 }
 
 .module {
 	background-color: #2618B1;
+	height: 10px;
+	float: left;
+}
+
+.modulegap {
 	height: 10px;
 	float: left;
 }

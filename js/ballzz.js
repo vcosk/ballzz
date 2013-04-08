@@ -5,8 +5,9 @@ var maxPos = 480;
 var minPos = 0;
 var moduleLength = 50;
 var barGap = 80;
-var numnerOfModules = Math.floor(maxPos/moduleLength);
+var numnerOfModules = Math.floor(maxPos/moduleLength)+1;
 var parentEle;
+var barStartPos = 20;
 
 $(document).ready(function() {
 	init();
@@ -78,6 +79,7 @@ var Bar = function() {
 	this.htmlObj =  document.createElement("div");
 	$(this.htmlObj).addClass("bar");
 	$(this.htmlObj).css("width", maxPos+20);
+	$(this.htmlObj).css("top", barStartPos);
 }
 
 function isInGap(x,y) {
@@ -98,16 +100,29 @@ function renderBar() {
 	}
 }
 
-var initP = 50;
 function generateBar() {
-	var numberOfGaps = Math.random()*100000%3;
+	var numberOfGaps = Math.round(Math.random()*100000)%3;
+	var gapsPos = new Array();
+
+	var gapPos;
+	while(numberOfGaps > -1) {
+		gapPos = Math.round(Math.random()*100000)%numnerOfModules;
+		if(gapsPos.indexOf(gapPos) == -1) {
+			gapsPos.push(gapPos);
+			numberOfGaps--;
+		}
+	}
+	gapsPos.sort();
+	console.log(gapsPos);
 	var module;
 	var bar = new Bar();
-	for(var modInex=0; modInex<=numnerOfModules;modInex++) {
+	for(var modIndex=0; modIndex<numnerOfModules;modIndex++) {
 		module = new Module();
 		module.htmlObj = document.createElement("span");
-		$(module.htmlObj).addClass("module");
 		$(module.htmlObj).css("width", moduleLength);
+		if(gapsPos.indexOf(modIndex) != -1) {
+			this.gap = true;
+		}
 		bar.modules.push(module);
 		module.bar = bar;
 	}
@@ -122,8 +137,10 @@ var Module = function() {
 	this.pos = null;
 	this.render = renderModule;
 	this.bar = null;
+	this.gap = false;
 }
 
 function renderModule() {
+	$(this.htmlObj).addClass("module");
 	$(this.bar.htmlObj).append(this.htmlObj);
 }
