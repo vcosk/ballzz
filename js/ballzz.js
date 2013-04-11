@@ -30,9 +30,12 @@ function init() {
 	parentEle = $('#gameElement');
 	ballzObj = new Ballzz();
 	ballzObj.render();
-	var bar = generateBar();
-	//console.log(bar);
-	bar.render();
+	var bar1 = generateBar();
+	bar1.render();
+	barStartPos += 30;
+	var bar2 = generateBar();
+	bar2.render();
+	barStartPos -= 30;
 }
 
 /* Position object top = x, left = y */
@@ -48,14 +51,15 @@ var Ballzz = function(x,y) {
 	this.direction = 0;
 	this.render = renderBallzz;
 	this.move = moveBallzz;
+	this.radius = null;
 }
 
 function renderBallzz() {
-	ballzObj.HTMLObj = document.createElement("span");
-	$(ballzObj.HTMLObj).attr("id", "ballzz");
-	$(ballzObj.HTMLObj).attr("class", "ballzz");
+	this.HTMLObj = document.createElement("span");
+	$(this.HTMLObj).attr("id", "ballzz");
+	$(this.HTMLObj).attr("class", "ballzz");
 	//document.body.appendChild(ballzObj.HTMLObj);
-	parentEle.append(ballzObj.HTMLObj);
+	parentEle.append(this.HTMLObj);
 }
 //var counter = 0;
 
@@ -96,7 +100,7 @@ function renderBar() {
 	var m;
 	for(m in this.modules) {
 		//console.log(this.modules[m]);
-		this.modules[m].render();
+		this.modules[m].render(m);
 	}
 }
 
@@ -121,7 +125,7 @@ function generateBar() {
 		module.htmlObj = document.createElement("span");
 		$(module.htmlObj).css("width", moduleLength);
 		if(gapsPos.indexOf(modIndex) != -1) {
-			this.gap = true;
+			module.isGap = true;
 		}
 		bar.modules.push(module);
 		module.bar = bar;
@@ -137,10 +141,15 @@ var Module = function() {
 	this.pos = null;
 	this.render = renderModule;
 	this.bar = null;
-	this.gap = false;
+	this.isGap = false;
 }
 
-function renderModule() {
-	$(this.htmlObj).addClass("module");
+function renderModule(moduleIndex) {
+	if(this.isGap) {
+		$(this.htmlObj).addClass("modulegap");
+	}
+	else {
+		$(this.htmlObj).addClass("module");
+	}
 	$(this.bar.htmlObj).append(this.htmlObj);
 }
